@@ -31,13 +31,17 @@ print("="*70)
 
 # Run collision transformations
 print("\nRunning collision transformations...")
-with open("transform/transform_collisions.sql") as f:
-    sql = f.read()
-with engine.begin() as conn:
-    conn.execute(text(sql))
-print("Collision tables created")
-
-
+transforms = [
+    "transform_collisions.sql", "by_borough.sql", "contrib_factor.sql", 
+    "demographics.sql", "over_time.sql", "safety_equip.sql", "vehicles.sql",
+]
+for tf in transforms:
+    print(f"Running {tf}...")
+    with engine.begin() as conn:
+        with open(f"transform/{tf}") as f:
+            sql = f.read()
+            conn.execute(text(sql))
+print("Collision analytics tables created")
 
 
 print("\n" + "="*70)

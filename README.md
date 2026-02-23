@@ -93,7 +93,7 @@ python -m ipykernel install --user --name=<env-name> --display-name "Python (NYC
 # Set up the initial state of your DB.
 # You can change the name of the db from nyc_collisions to anything you'd like. 
 # Just be sure to update the postgres url in the .env 
-
+brew services start postgresql 
 createdb <nyc_collisions>
 ```
 

@@ -1,15 +1,16 @@
 -- ============================================================================
 -- NYC COLLISION DATA TRANSFORMATIONS
--- Creates analytical tables from raw collision, vehicle, and person data
+-- Creates analytical tables from collision, vehicle, and person data
 -- ============================================================================
 
 -- ----------------------------------------------------------------------------
--- 1. COLLISION SUMMARY - Basic aggregations for 2024
+-- 2. Collision summary by borough - Aggregations of key metrics grouped by borough 
 -- ----------------------------------------------------------------------------
-DROP TABLE IF EXISTS analytics.collision_summary;
+DROP TABLE IF EXISTS analytics.borough_summary;
 
-CREATE TABLE analytics.collision_summary AS
+CREATE TABLE analytics.borough_summary AS
 SELECT
+    borough,
     COUNT(*) AS total_collisions,
     SUM(CASE WHEN CAST(number_of_persons_injured AS INTEGER) > 0 THEN 1 ELSE 0 END) AS injury_incidents,
     SUM(CASE WHEN CAST(number_of_persons_killed AS INTEGER) > 0 THEN 1 ELSE 0 END) AS fatal_incidents,
@@ -24,5 +25,7 @@ SELECT
     SUM(CAST(number_of_motorist_injured AS INTEGER)) AS motorists_injured,
     SUM(CAST(number_of_motorist_killed AS INTEGER)) AS motorists_killed
 FROM clean.collisions
+GROUP BY borough
+ORDER BY borough
 ;
 
