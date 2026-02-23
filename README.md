@@ -1,3 +1,21 @@
+# Project Setup
+The setup for this project can be done essentially just as described in the original readme. Simply clone the code, setup and activate the python venv with dependencies, setup the kernelspec, and create the database (make sure a user called "postgres" has create schema and create table permissions on the database, if they're not a superuser/admin by default). Once that's setup, you can run the code via `python main.py`, and once that's finished, check out the jupyter notebook. 
+
+## Potential Throttling Issue sans app token
+I opted to use the Socrata API to programmatically download the raw data in the fetch_collisions.py file. I did not include an app_token since sending that securely for this project would be a bit overkill IMO, but since the API does sometimes throttle traffic without the app_token, occassionally the code will need to be rerun if another request to the API has recently been made. Of course, any real production environment would include an app_token and retry logic. 
+ 
+## Time 
+This project took me around 4 hours. 
+
+## Feelings on Project & Concerns
+Overall, I really enjoyed this project--it was fun to work with real world data that's close to home (I live in New York)! There were a lot of different ways the problem could have been approached, especially since it was open ended what type of system we wanted to optimize for. Since the example code included analytics SQL table, I went with that approach as well, creating both raw, partially cleaned, and analytic summary sql tables that could then be queried. The amount of data actually being queried in this case was honestly probably small enough to explore just via pandas (which would usually be how I'd start, pre-productionizing), but the SQL/data warehouse type of approach is much better if we want to simulate situations with larger amounts of data that business users need to be able to quickly see updated reports on. 
+
+There were a lot of things that I'd add in anything going into production, such as much more thorough data cleaning, type constraints, error handling, etc. I also would love to work with a dataset that has information on traffic patterns in NYC generally in order to better answer some of the questions posed in the analysis. Since we only have collision data, we can't properly answer questions on what makes a person, car, etc. more likely to crash in the first place, since we only have information on the people/vehicles who *did* crash. Having information on the baseline about what kinds of vehicles, drivers, traffic spikes, etc. are on the road generally would provide a lot of helpful context. 
+
+All that to say--thanks for a thought provoking little experiment! 
+
+
+# ORIGINAL README TEXT BELOW
 # SL/VF Data Engineer Technical Take Home
 
 > Build is a mini ELT pipeline that extracts recent NYC traffic collision data, loads it into a database, transforms it into an analytical tables, and display the information in a meaningful way. 
